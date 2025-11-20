@@ -1,0 +1,49 @@
+CREATE TABLE Products (
+    product_id INT PRIMARY KEY AUTO_INCREMENT,
+    product_name VARCHAR(200) NOT NULL,
+    category VARCHAR(100),
+    price DECIMAL(15,2) NOT NULL CHECK (price >= 0)
+);
+CREATE TABLE Orders (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT NOT NULL,
+    order_date DATE NOT NULL,
+    total_amount DECIMAL(15,2) NOT NULL CHECK (total_amount >= 0)
+);
+SELECT 
+    category,
+    COUNT(*) AS number_of_products
+FROM Products
+GROUP BY category;
+SELECT 
+    customer_id,
+    SUM(total_amount) AS total_spent
+FROM Orders
+GROUP BY customer_id;
+SELECT 
+    category,
+    COUNT(*) AS product_count,
+    AVG(price) AS avg_price,
+    MAX(price) AS max_price,
+    MIN(price) AS min_price
+FROM Products
+GROUP BY category;
+SELECT 
+    customer_id,
+    SUM(total_amount) AS total_spent
+FROM Orders
+GROUP BY customer_id
+HAVING SUM(total_amount) > 1000;
+SELECT 
+    category,
+    COUNT(*) AS product_count
+FROM Products
+GROUP BY category
+HAVING COUNT(*) > 5;
+SELECT 
+    customer_id,
+    SUM(total_amount) AS total_spent
+FROM Orders
+GROUP BY customer_id
+ORDER BY total_spent DESC
+LIMIT 3;
